@@ -4,6 +4,15 @@ body {
     background-color: rgb(14, 14, 14);
 }
 
+header {
+    width: 85vw;
+}
+
+#header {
+    margin: 0 7.5vw 0 7.5vw;
+}
+
+
 header a span {
     font-family: "Arimo", sans-serif;
     font-weight: 600;
