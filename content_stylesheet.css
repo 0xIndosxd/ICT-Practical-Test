@@ -1,0 +1,22 @@
+.main-section {
+    padding-right: 5%;
+    padding-left: 5%;
+}
+
+.main-section .row {
+    height: 70vh;
+}
+
+.main-section .row div h1{
+    font-family: "League Spartan", sans-serif;
+    color: white;
+    font-weight: 800;
+    font-size: calc((100vh + 100vw)/50);
+}
+
+.main-section .row div p{
+    font-family: "Arial", sans-serif;
+    color: white;
+    font-weight: 200;
+    font-size: calc((100vh + 100vw)/150);
+}

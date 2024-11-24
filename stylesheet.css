@@ -1,18 +1,27 @@
-header {
-    height: 5vh;
-    background-color: black;
-}
-
 body {
     min-width: 600px;
     min-height: 800px;
+    background-color: rgb(14, 14, 14);
+}
+
+header a span {
+    font-family: "Arimo", sans-serif;
+    font-weight: 600;
+    font-size: calc((100vh + 100vw)/80);
+    color: white;
+}
+
+header ul li {
+    font-family: "Arimo", sans-serif;
+    font-size: calc((100vh + 100vw)/120);
+    font-weight: 600;
 }
 
 #FirstSection {
     position: relative;
     top: 0;
     left: 0;
-    height: 95vh;
+    height: calc(100vh - 73px);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -52,10 +61,6 @@ body {
     min-height: 1.2em;
 }
 
-.main-section {
-    background-color: rgb(145, 39, 39);
-    padding-bottom: 1000px;
-}
 
 .linear-gradient-black {
     background: rgb(0,0,3);
