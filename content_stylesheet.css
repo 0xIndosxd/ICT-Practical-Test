@@ -1,10 +1,18 @@
 .main-section {
-    padding-right: 5%;
-    padding-left: 5%;
+    padding-right: 10%;
+    padding-left: 10%;
 }
 
 .main-section .row {
     height: 70vh;
+}
+
+.main-section .row img {
+    padding: 0;
+}
+
+.side-text {
+    padding-left: 5%;
 }
 
 .main-section .row div h1{
@@ -19,4 +27,9 @@
     color: white;
     font-weight: 200;
     font-size: calc((100vh + 100vw)/150);
+}
+
+pre {
+    padding: 0 5% 0 5%;
+    background-color: #282c34;
 }

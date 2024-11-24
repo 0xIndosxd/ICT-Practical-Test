@@ -11,6 +11,7 @@ header a span {
     color: white;
 }
 
+
 header ul li {
     font-family: "Arimo", sans-serif;
     font-size: calc((100vh + 100vw)/120);
@@ -41,7 +42,7 @@ header ul li {
 #FirstSection .linear-gradient-black {
     z-index: 1;
     width: 100%;
-    padding-left: 100px;
+    padding-left: 9%;
 }
 
 #FirstSection div h2 {
