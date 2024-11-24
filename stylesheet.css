@@ -42,7 +42,7 @@ header ul li {
 #FirstSection .linear-gradient-black {
     z-index: 1;
     width: 100%;
-    padding-left: 9%;
+    padding: 0 9% 5% 9%;
 }
 
 #FirstSection div h2 {
