@@ -1,6 +1,6 @@
 const titleIdle = document.getElementById("TitleIdle");
 const title = document.getElementById("Title");
-const wordTitle = ["Imagination", "Smile", "Friends", "Roblox"]
+const wordTitle = ["Detective", "SQLite", "Query", "Big_Data", "Mystery", "SQL_City"]
 
 // SLEEP FUNCTION
 async function sleep(seconds) {
