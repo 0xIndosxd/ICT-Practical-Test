@@ -26,7 +26,7 @@
           <ul class="nav nav-pills ml-auto">
             <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
             <li class="nav-item "><a href="./schemaDiagram.html" class="nav-link">Schema Diagram</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">SQL Codes</a></li>
+            <li class="nav-item"><a href="./sqlCodes.html" class="nav-link">SQL Codes</a></li>
             <li class="nav-item"><a href="https://sites.google.com/sophos.sch.id/about-page/Home" class="nav-link">About</a></li>
           </ul>
         </header>
@@ -47,13 +47,22 @@
     </section>
 
     <section class="main-section container-fluid">
-      <div class="row d-flex align-items-center">
-        <img src="https://picsum.photos/1920/1080" alt="" class="img col-lg-6">
+      <div class="row d-flex align-items-center normal-row-size">
+        <img src="./Assets/ImageOfADetective.png" alt="" class="img col-lg-6">
         <div class="col-6 side-text">
-          <h1>Subheader</h1>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam delectus rerum ipsum, eius quasi a placeat amet nemo! Numquam non praesentium modi id repudiandae animi omnis totam vitae quam illo.</p>
+          <h1>What is SQL Murder Mystery</h1>
+          <p class="subheaderDescription">SQL Murder Mystery is a little fun game about solving a murder mystery by only using Structured Query Language (SQL). At the first step you are a confused detective who forgot what is the case about and all you remember are three information which is the date, type of murder, and the location of city where the murder happend. The fun part is that you are give a big chunck of data from crime scene report, interviews, facebook events, and more.</p>
         </div>
       </div>
+
+      <div class="row d-flex align-items-center small-row-size">
+        <h1 style="font-size: 4rem;">"It feels like becoming a real detective"</h1>
+      </div>
+
+      <div class="row d-flex align-items-center small-row-size">
+        <h1 style="font-size: 4rem; color: rgb(110, 160, 216);">Walkthrough Steps</h1>
+      </div>
+
       <div class="row d-flex align-items-center">
         <pre class="col-lg-6">
           <code>
@@ -63,8 +72,173 @@ SELECT * FROM crime_scene_report
 WHERE date = 20180115
 AND city = 'SQL City'
 AND type = 'murder';
+
+/* Output */
+/*
+┌──────────┬────────┬──────────────────────────────────────────────────────────────┬──────────┐
+│   date   │  type  │                         description                          │   city   │
+├──────────┼────────┼──────────────────────────────────────────────────────────────┼──────────┤
+│ 20180115 │ murder │ Security footage shows that there were 2 witnesses. The firs │ SQL City │
+│          │        │ t witness lives at the last house on "Northwestern Dr". The  │          │
+│          │        │ second witness, named Annabel, lives somewhere on "Franklin  │          │
+│          │        │ Ave".                                                        │          │
+└──────────┴────────┴──────────────────────────────────────────────────────────────┴──────────┘
+*/
           </code>
         </pre>
+        <p class="col-lg-6 subheaderDescription"  style="padding-left: 2rem;">From the start information we gain that a murder in January 15, 2018 at SQLCity</p>
+      </div>
+
+      <div class="row d-flex align-items-center">
+        <pre class="col-lg-6">
+          <code>
+/*
+Witness 1 = Last house on "Northwester Dr"
+Witness 2 = Annebl, Somewhere in "Franklin Ave"
+*/
+
+/* WITNESS 1 */
+SELECT * FROM person
+WHERE address_street_name = 'Northwestern Dr'
+ORDER BY address_number DESC
+LIMIT 1;
+
+/* Output */
+/*
+┌───────┬────────────────┬────────────┬────────────────┬─────────────────────┬───────────┐
+│  id   │      name      │ license_id │ address_number │ address_street_name │    ssn    │
+├───────┼────────────────┼────────────┼────────────────┼─────────────────────┼───────────┤
+│ 14887 │ Morty Schapiro │ 118009     │ 4919           │ Northwestern Dr     │ 111564949 │
+└───────┴────────────────┴────────────┴────────────────┴─────────────────────┴───────────┘
+*/
+          </code>
+        </pre>
+        <p class="col-lg-6 subheaderDescription"  style="padding-left: 2rem;">From using the address name and searching at the last address number we could see the person id and name.</p>
+      </div>
+
+      <div class="row d-flex align-items-center">
+        <pre class="col-lg-6">
+          <code>
+SELECT * FROM interview
+WHERE person_id = (
+    SELECT id FROM person
+    WHERE address_street_name = 'Northwestern Dr'
+    ORDER BY address_number DESC
+    LIMIT 1
+);
+/* Output */
+/*
+┌───────────┬──────────────────────────────────────────────────────────────┐
+│ person_id │                          transcript                          │
+├───────────┼──────────────────────────────────────────────────────────────┤
+│ 14887     │ I heard a gunshot and then saw a man run out. He had a "Get  │
+│           │ Fit Now Gym" bag. The membership number on the bag started w │
+│           │ ith "48Z". Only gold members have those bags. The man got in │
+│           │ to a car with a plate that included "H42W".                  │
+└───────────┴──────────────────────────────────────────────────────────────┘
+Keyword:
+- Membership Number "48Z"
+- Golden member
+- License plate "H42W"
+*/
+          </code>
+        </pre>
+        <p class="col-lg-6 subheaderDescription"  style="padding-left: 2rem;">From the interview we are given a new clue which is the killer has a membership number with "48Z". The id start with that sequence. We also get the membership status, which is golden member, and a plate number that includes "H42W" sequence of character in it.</p>
+      </div>
+      
+      <div class="row d-flex align-items-center">
+        <pre class="col-lg-6">
+          <code>
+/* Membership Number "48Z%" */
+SELECT * FROM get_fit_now_check_in
+WHERE membership_id LIKE '48Z%';
+/* Multiple Subject */
+
+/* Golden Member */
+SELECT * FROM get_fit_now_member
+WHERE membership_status = 'gold';
+/* A lot of suspect there buddy */
+
+/* License plate "H42W" */
+SELECT * FROM drivers_license
+WHERE plate_number LIKE '%H42W%';
+/* 3 Suspect */
+          </code>
+        </pre>
+        <p class="col-lg-6 subheaderDescription"  style="padding-left: 2rem;">I'm not going to show the output here since it will ruin the design of the webpage but first we gain the query of each of the clue.</p>
+      </div>
+
+      <div class="row d-flex align-items-center">
+        <pre class="col-lg-6">
+          <code>
+
+/* Output */
+/*
+
+*/
+          </code>
+        </pre>
+        <p class="col-lg-6 subheaderDescription"  style="padding-left: 2rem;"></p>
+      </div>
+
+      <div class="row d-flex align-items-center">
+        <pre class="col-lg-6">
+          <code>
+/* Output */
+/*
+
+*/
+          </code>
+        </pre>
+        <p class="col-lg-6 subheaderDescription"  style="padding-left: 2rem;"></p>
+      </div>
+
+      <div class="row d-flex align-items-center">
+        <pre class="col-lg-6">
+          <code>
+/* Output */
+/*
+
+*/
+          </code>
+        </pre>
+        <p class="col-lg-6 subheaderDescription"  style="padding-left: 2rem;"></p>
+      </div>
+
+      <div class="row d-flex align-items-center">
+        <pre class="col-lg-6">
+          <code>
+/* Output */
+/*
+
+*/
+          </code>
+        </pre>
+        <p class="col-lg-6 subheaderDescription"  style="padding-left: 2rem;"></p>
+      </div>
+
+      <div class="row d-flex align-items-center">
+        <pre class="col-lg-6">
+          <code>
+/* Output */
+/*
+
+*/
+          </code>
+        </pre>
+        <p class="col-lg-6 subheaderDescription"  style="padding-left: 2rem;"></p>
+      </div>
+
+      <div class="row d-flex align-items-center">
+        <pre class="col-lg-6">
+          <code>
+/* Output */
+/*
+
+*/
+          </code>
+        </pre>
+        <p class="col-lg-6 subheaderDescription"  style="padding-left: 2rem;"></p>
       </div>
     </section>
     

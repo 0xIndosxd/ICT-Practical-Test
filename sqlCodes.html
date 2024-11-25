@@ -25,8 +25,8 @@
     
           <ul class="nav nav-pills ml-auto">
             <li class="nav-item"><a href="./index.html" class="nav-link" aria-current="page">Home</a></li>
-            <li class="nav-item "><a href="./schemaDiagram.html" class="nav-link active">Schema Diagram</a></li>
-            <li class="nav-item"><a href="./sqlCodes.html" class="nav-link">SQL Codes</a></li>
+            <li class="nav-item "><a href="./schemaDiagram.html" class="nav-link">Schema Diagram</a></li>
+            <li class="nav-item"><a href="#" class="nav-link active">SQL Codes</a></li>
             <li class="nav-item"><a href="https://sites.google.com/sophos.sch.id/about-page/Home" class="nav-link">About</a></li>
           </ul>
         </header>
@@ -34,74 +34,8 @@
 
     <section class="main-section container-fluid">
       <div class="row d-flex align-items-center">
-        <img src="./Assets/Schema.png" alt="" class="img col-lg-12">
-      </div>
-      <div class="row d-flex align-items-center" style="padding-top: 2rem;">
-        <pre class="col-lg-12">
+        <pre class="col-lg-6">
           <code>
-/*
-CREATE TABLE crime_scene_report (
-        date integer,
-        type text,
-        description text,
-        city text
-    );
-CREATE TABLE drivers_license (
-        id integer PRIMARY KEY,
-        age integer,
-        height integer,
-        eye_color text,
-        hair_color text,
-        gender text,
-        plate_number text,
-        car_make text,
-        car_model text
-    );
-CREATE TABLE facebook_event_checkin (
-        person_id integer,
-        event_id integer,
-        event_name text,
-        date integer,
-        FOREIGN KEY (person_id) REFERENCES person(id)
-    );
-CREATE TABLE interview (
-        person_id integer,
-        transcript text,
-        FOREIGN KEY (person_id) REFERENCES person(id)
-    );
-CREATE TABLE get_fit_now_member (
-        id text PRIMARY KEY,
-        person_id integer,
-        name text,
-        membership_start_date integer,
-        membership_status text,
-        FOREIGN KEY (person_id) REFERENCES person(id)
-    );
-CREATE TABLE get_fit_now_check_in (
-        membership_id text,
-        check_in_date integer,
-        check_in_time integer,
-        check_out_time integer,
-        FOREIGN KEY (membership_id) REFERENCES get_fit_now_member(id)
-    );
-CREATE TABLE solution (
-        user integer,
-        value text
-    );
-CREATE TABLE income (
-        ssn CHAR PRIMARY KEY, 
-        annual_income integer
-    );
-CREATE TABLE person (
-        id integer PRIMARY KEY, 
-        name text, 
-        license_id integer, 
-        address_number integer, 
-        address_street_name text, 
-        ssn CHAR REFERENCES income (ssn), F
-        OREIGN KEY (license_id) REFERENCES drivers_license (id)
-    );
-*/
           </code>
         </pre>
       </div>

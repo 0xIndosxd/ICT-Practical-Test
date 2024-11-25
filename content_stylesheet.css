@@ -4,7 +4,15 @@
 }
 
 .main-section .row {
+    color: white;
+}
+
+.main-section .normal-row-size {
     height: 70vh;
+}
+
+.main-section .small-row-size {
+    height: 40vh;
 }
 
 .main-section .row img {
@@ -22,11 +30,12 @@
     font-size: calc((100vh + 100vw)/50);
 }
 
-.main-section .row div p{
+.subheaderDescription{
+    padding: 1rem 0 0 0;
     font-family: "Arial", sans-serif;
     color: white;
     font-weight: 200;
-    font-size: calc((100vh + 100vw)/150);
+    font-size: calc((100vh + 100vw)/130);
 }
 
 pre {
