@@ -23,7 +23,7 @@
     padding-left: 5%;
 }
 
-.main-section .row div h1{
+.subheading{
     font-family: "League Spartan", sans-serif;
     color: white;
     font-weight: 800;
@@ -36,6 +36,10 @@
     color: white;
     font-weight: 200;
     font-size: calc((100vh + 100vw)/130);
+}
+
+.subtextPaddingLeft {
+    padding-left: 5%;
 }
 
 pre {

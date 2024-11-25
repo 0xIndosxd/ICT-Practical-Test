@@ -50,7 +50,7 @@
       <div class="row d-flex align-items-center normal-row-size">
         <img src="./Assets/ImageOfADetective.png" alt="" class="img col-lg-6">
         <div class="col-6 side-text">
-          <h1>What is SQL Murder Mystery</h1>
+          <h1 class="subheading">What is SQL Murder Mystery</h1>
           <p class="subheaderDescription">SQL Murder Mystery is a little fun game about solving a murder mystery by only using Structured Query Language (SQL). At the first step you are a confused detective who forgot what is the case about and all you remember are three information which is the date, type of murder, and the location of city where the murder happend. The fun part is that you are give a big chunck of data from crime scene report, interviews, facebook events, and more.</p>
         </div>
       </div>
@@ -86,7 +86,7 @@ AND type = 'murder';
 */
           </code>
         </pre>
-        <p class="col-lg-6 subheaderDescription"  style="padding-left: 2rem;">From the start information we gain that a murder in January 15, 2018 at SQLCity</p>
+        <p class="col-lg-6 subheaderDescription subtextPaddingLeft">From the start information we gain that a murder in January 15, 2018 at SQLCity</p>
       </div>
 
       <div class="row d-flex align-items-center">
@@ -113,7 +113,7 @@ LIMIT 1;
 */
           </code>
         </pre>
-        <p class="col-lg-6 subheaderDescription"  style="padding-left: 2rem;">From using the address name and searching at the last address number we could see the person id and name.</p>
+        <p class="col-lg-6 subheaderDescription subtextPaddingLeft">From using the address name and searching at the last address number we could see the person id and name.</p>
       </div>
 
       <div class="row d-flex align-items-center">
@@ -143,7 +143,7 @@ Keyword:
 */
           </code>
         </pre>
-        <p class="col-lg-6 subheaderDescription"  style="padding-left: 2rem;">From the interview we are given a new clue which is the killer has a membership number with "48Z". The id start with that sequence. We also get the membership status, which is golden member, and a plate number that includes "H42W" sequence of character in it.</p>
+        <p class="col-lg-6 subheaderDescription subtextPaddingLeft">From the interview we are given a new clue which is the killer has a membership number with "48Z". The id start with that sequence. We also get the membership status, which is golden member, and a plate number that includes "H42W" sequence of character in it.</p>
       </div>
       
       <div class="row d-flex align-items-center">
@@ -165,80 +165,322 @@ WHERE plate_number LIKE '%H42W%';
 /* 3 Suspect */
           </code>
         </pre>
-        <p class="col-lg-6 subheaderDescription"  style="padding-left: 2rem;">I'm not going to show the output here since it will ruin the design of the webpage but first we gain the query of each of the clue.</p>
+        <p class="col-lg-6 subheaderDescription subtextPaddingLeft">I'm not going to show the output here since it will ruin the design of the webpage but first we gain the query of each of the clue.</p>
       </div>
 
       <div class="row d-flex align-items-center">
         <pre class="col-lg-6">
           <code>
 
-/* Output */
-/*
+/* SUBQUERY */
+/* Connect the membership to get person id*/
+SELECT person_id FROM get_fit_now_member
+WHERE membership_status = 'gold'
+AND id IN
+(
+    SELECT membership_id FROM get_fit_now_check_in
+    WHERE membership_id LIKE '48Z%'
+);
+/* Two suspect */
 
-*/
+/* License ID from plate id */
+SELECT id FROM drivers_license
+WHERE plate_number LIKE '%H42W%';
+/* Three suspect */
           </code>
         </pre>
-        <p class="col-lg-6 subheaderDescription"  style="padding-left: 2rem;"></p>
+        <p class="col-lg-6 subheaderDescription subtextPaddingLeft">Connecting the gold status with membership id. Searching drivers_license where the plate number have a subsequence of "H42W"</p>
       </div>
 
       <div class="row d-flex align-items-center">
         <pre class="col-lg-6">
           <code>
+/* CONNECTING THE STRING WITH 3 QUERY */
+SELECT * FROM person
+WHERE id IN
+(
+    SELECT person_id FROM get_fit_now_member
+    WHERE membership_status = 'gold'
+    AND id IN
+    (
+        SELECT membership_id FROM get_fit_now_check_in
+        WHERE membership_id LIKE '48Z%'
+    )
+)
+AND license_id IN
+(
+    SELECT id FROM drivers_license
+    WHERE plate_number LIKE '%H42W%'
+);
+
 /* Output */
 /*
-
+┌───────┬───────────────┬────────────┬────────────────┬───────────────────────┬───────────┐
+│  id   │     name      │ license_id │ address_number │  address_street_name  │    ssn    │
+├───────┼───────────────┼────────────┼────────────────┼───────────────────────┼───────────┤
+│ 67318 │ Jeremy Bowers │ 423327     │ 530            │ Washington Pl, Apt 3A │ 871539279 │
+└───────┴───────────────┴────────────┴────────────────┴───────────────────────┴───────────┘
 */
           </code>
         </pre>
-        <p class="col-lg-6 subheaderDescription"  style="padding-left: 2rem;"></p>
+        <p class="col-lg-6 subheaderDescription subtextPaddingLeft">We finaly find the suspect by combining the subquery from the last step. It point to a single person which named "Jeremy Bowers"</p>
+      </div>
+
+      <div class="row d-flex align-items-center normal-row-size">
+        <pre class="col-lg-6">
+          <code>
+
+INSERT INTO solution VALUES (1, 'Jeremy Bowers');
+        
+SELECT value FROM solution;
+
+/* Output */
+/*
+Congrats, you found the murderer! But wait, there's more... 
+If you think you're up for a challenge, try querying the interview 
+transcript of the murderer to find the real villain behind this crime. 
+If you feel especially confident in your SQL skills, try to complete
+this final step with no more than 2 queries. Use this same INSERT 
+statement with your new suspect to check your answer.
+*/
+          </code>
+        </pre>
+        <div class="col-lg-6 side-text">
+          <h1 class="subheading" style="color: rgb(255, 187, 0);">CASE CLOSED</h1>
+          <p class="subheaderDescription">After a long query we finaly found the murderer who is "Jeremy Bowers". But wait there is more???</p>
+        </div>
+      </div>
+
+      <div class="row d-flex align-items-center small-row-size">
+        <h1 style="font-size: 4rem; color: rgb(110, 160, 216);">Finding the Real <strong style="color: rgb(156, 40, 40);">villain</strong></h1>
       </div>
 
       <div class="row d-flex align-items-center">
         <pre class="col-lg-6">
           <code>
+/* WITNESS 2 */
+SELECT * FROM person
+WHERE name LIKE 'Annabel%'
+AND address_street_name = 'Franklin Ave';
+        
 /* Output */
 /*
-
+┌───────┬────────────────┬────────────┬────────────────┬─────────────────────┬───────────┐
+│  id   │      name      │ license_id │ address_number │ address_street_name │    ssn    │
+├───────┼────────────────┼────────────┼────────────────┼─────────────────────┼───────────┤
+│ 16371 │ Annabel Miller │ 490173     │ 103            │ Franklin Ave        │ 318771143 │
+└───────┴────────────────┴────────────┴────────────────┴─────────────────────┴───────────┘
 */
           </code>
         </pre>
-        <p class="col-lg-6 subheaderDescription"  style="padding-left: 2rem;"></p>
+        <p class="col-lg-6 subheaderDescription subtextPaddingLeft">I'm starting out with finding more clue from the second witness.</p>
       </div>
 
       <div class="row d-flex align-items-center">
         <pre class="col-lg-6">
           <code>
+/* Transcript interview */
+SELECT * FROM interview
+WHERE person_id =
+(
+    SELECT id FROM person
+    WHERE name LIKE 'Annabel%'
+);
+            
 /* Output */
 /*
-
+┌───────────┬──────────────────────────────────────────────────────────────┐
+│ person_id │                          transcript                          │
+├───────────┼──────────────────────────────────────────────────────────────┤
+│ 16371     │ I saw the murder happen, and I recognized the killer from my │
+│           │  gym when I was working out last week on January the 9th.    │
+└───────────┴──────────────────────────────────────────────────────────────┘
 */
           </code>
         </pre>
-        <p class="col-lg-6 subheaderDescription"  style="padding-left: 2rem;"></p>
+        <p class="col-lg-6 subheaderDescription subtextPaddingLeft">Getting the transcript interview from the second witness</p>
       </div>
 
       <div class="row d-flex align-items-center">
         <pre class="col-lg-6">
           <code>
-/* Output */
+
+/* Selecting person with check in register at January 9th 2018 */
+SELECT * FROM person
+WHERE id IN
+(
+    SELECT person_id FROM get_fit_now_member
+    WHERE id IN
+    (
+        SELECT membership_id FROM get_fit_now_check_in
+        WHERE check_in_date = 20180109
+    )
+);
+/* Some people, around 13 people */
+          </code>
+        </pre>
+        <p class="col-lg-6 subheaderDescription subtextPaddingLeft">Ok good start, now I'm thinking maybe we can connect it about who is also with the killer when the scene happens, which is at 15 January 2018</p>
+      </div>
+      <div class="row d-flex align-items-center">
+        <pre class="col-lg-6">
+          <code>
+
+/* OUTPUT */
 /*
 
 */
           </code>
         </pre>
-        <p class="col-lg-6 subheaderDescription"  style="padding-left: 2rem;"></p>
+        <p class="col-lg-6 subheaderDescription subtextPaddingLeft">The data is too blury. I think we went the wrong path here &#128555 &#128557 &#128577</p>
+      </div>
+      <div class="row d-flex align-items-center">
+        <pre class="col-lg-6">
+          <code>
+/* Checking "Jeremy Bowers" Facebook */
+SELECT * FROM facebook_event_checkin
+WHERE person_id =
+(
+    SELECT id FROM person
+    WHERE name = 'Jeremy Bowers'
+);
+
+/* OUTPUT */
+/*
+┌───────────┬──────────┬────────────────────────┬──────────┐
+│ person_id │ event_id │       event_name       │   date   │
+├───────────┼──────────┼────────────────────────┼──────────┤
+│ 67318     │ 4719     │ The Funky Grooves Tour │ 20180115 │ Same date as the incident!
+│ 67318     │ 1143     │ SQL Symphony Concert   │ 20171206 │
+└───────────┴──────────┴────────────────────────┴──────────┘
+*/
+          </code>
+        </pre>
+        <p class="col-lg-6 subheaderDescription subtextPaddingLeft">Checking the suspect facebook to see what event he attend. WAIT. It didn't happend at the event, it happen at an event.</p>
       </div>
 
       <div class="row d-flex align-items-center">
         <pre class="col-lg-6">
           <code>
-/* Output */
-/*
+/* Interview of Jeremy Bowers the killer */
+SELECT * FROM interview
+WHERE person_id =
+(
+    SELECT id FROM person
+    WHERE name = 'Jeremy Bowers'
+);
 
+/* OUTPUT */
+/*
+┌───────────┬──────────────────────────────────────────────────────────────┐
+│ person_id │                          transcript                          │
+├───────────┼──────────────────────────────────────────────────────────────┤
+│ 67318     │ I was hired by a woman with a lot of money. I don't know her │
+│           │  name but I know she's around 5'5" (65") or 5'7" (67"). She  │
+│           │ has red hair and she drives a Tesla Model S. I know that she │
+│           │  attended the SQL Symphony Concert 3 times in December 2017. │
+└───────────┴──────────────────────────────────────────────────────────────┘
 */
           </code>
         </pre>
-        <p class="col-lg-6 subheaderDescription"  style="padding-left: 2rem;"></p>
+        <p class="col-lg-6 subheaderDescription subtextPaddingLeft">Ok, now were talking. A stream of information just came. Nice &#128512;</p>
+      </div>
+
+      <div class="row d-flex align-items-center">
+        <pre class="col-lg-6">
+          <code>
+/* Checking license characteristic */
+SELECT * FROM person
+WHERE license_id IN
+(
+    SELECT id FROM drivers_license
+    WHERE 
+    (height = 65  OR height = 66 OR height = 67)
+    AND gender = 'female'
+    AND hair_color = 'red'
+    AND car_make = 'Tesla'
+    AND car_model = 'Model S'
+);
+/* Result 3 suspect */
+
+/* OUTPUT */
+/*
+┌───────┬──────────────────┬────────────┬────────────────┬─────────────────────┬───────────┐
+│  id   │       name       │ license_id │ address_number │ address_street_name │    ssn    │
+├───────┼──────────────────┼────────────┼────────────────┼─────────────────────┼───────────┤
+│ 78881 │ Red Korb         │ 918773     │ 107            │ Camerata Dr         │ 961388910 │
+│ 90700 │ Regina George    │ 291182     │ 332            │ Maple Ave           │ 337169072 │
+│ 99716 │ Miranda Priestly │ 202298     │ 1883           │ Golden Ave          │ 987756388 │
+└───────┴──────────────────┴────────────┴────────────────┴─────────────────────┴───────────┘
+*/
+          </code>
+        </pre>
+        <p class="col-lg-6 subheaderDescription subtextPaddingLeft">From the characteristic of the suspect gain from drivers_license database. It appears there are 3 suspect with the same characteristic.</p>
+      </div>
+
+      <div class="row d-flex align-items-center">
+        <pre class="col-lg-6">
+          <code>
+/* People who attend the concert 3 times */
+SELECT person_id FROM facebook_event_checkin
+GROUP BY person_id
+HAVING COUNT(*) = 3;
+/* A lot of people */
+          </code>
+        </pre>
+        <p class="col-lg-6 subheaderDescription subtextPaddingLeft">A lot of people attend the concert which where the murder happend.</p>
+      </div>
+
+      <div class="row d-flex align-items-center">
+        <pre class="col-lg-6">
+          <code>
+/* Mix query together */
+SELECT * FROM person
+WHERE license_id IN
+(
+    SELECT id FROM drivers_license
+    WHERE 
+    (height = 65  OR height = 66 OR height = 67)
+    AND gender = 'female'
+    AND hair_color = 'red'
+    AND car_make = 'Tesla'
+    AND car_model = 'Model S'
+)
+AND id IN 
+(
+    SELECT person_id FROM facebook_event_checkin
+    GROUP BY person_id
+    HAVING COUNT(*) = 3
+);
+
+/* OUTPUT */
+/*
+┌───────┬──────────────────┬────────────┬────────────────┬─────────────────────┬───────────┐
+│  id   │       name       │ license_id │ address_number │ address_street_name │    ssn    │
+├───────┼──────────────────┼────────────┼────────────────┼─────────────────────┼───────────┤
+│ 99716 │ Miranda Priestly │ 202298     │ 1883           │ Golden Ave          │ 987756388 │
+└───────┴──────────────────┴────────────┴────────────────┴─────────────────────┴───────────┘
+*/
+          </code>
+        </pre>
+        <p class="col-lg-6 subheaderDescription subtextPaddingLeft"><strong style="color: rgb(156, 40, 40);">The true villain</strong> is found</p>
+      </div>
+
+      <div class="row d-flex align-items-center">
+        <pre class="col-lg-6">
+          <code>
+INSERT INTO solution VALUES (1, 'Miranda Priestly');
+  
+SELECT value FROM solution;
+
+/* OUTPUT */
+/*
+Congrats, you found the brains behind the murder! 
+Everyone in SQL City hails you as the greatest SQL 
+detective of all time. Time to break out the champagne!
+*/
+          </code>
+        </pre>
+        <p class="col-lg-6 subheaderDescription subtextPaddingLeft">YAY. &#127881 &#127881 &#127881</p>
       </div>
     </section>
     
